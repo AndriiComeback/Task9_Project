@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 [RequireComponent(typeof(Rigidbody))]
 public class CharacterController : MonoBehaviour {
@@ -73,7 +72,7 @@ public class CharacterController : MonoBehaviour {
 		}
 		if (Input.GetButtonDown("Fire2")) {
 			GameObject newRocket = Instantiate(rocketPrefab, rocketPoint.position, rocketPoint.rotation) as GameObject;
-			newRocket.GetComponentInChildren<Rigidbody>().velocity = rocketPoint.forward * 4;
+			newRocket.GetComponentInChildren<Rigidbody>().velocity = rocketPoint.forward * 8;
 			Destroy(newRocket, 5);
 		}
 	}

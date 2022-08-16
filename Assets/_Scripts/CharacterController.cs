@@ -23,11 +23,16 @@ public class CharacterController : MonoBehaviour {
 	private GameObject bulletPrefab;
 
 	[SerializeField]
+	private GameObject rocketPrefab;
+
+	[SerializeField]
 	private List<Transform> gunPoints;
 
-    [SerializeField]
-    private float shootPower = 1000f;
+	[SerializeField]
+	private Transform rocketPoint;
 
+	[SerializeField]
+    private float shootPower = 1000f;
 
 	private bool onGround = false;  //Стоит ли персонаж на подходящей поверхности (или летит/падает)
 
@@ -60,11 +65,16 @@ public class CharacterController : MonoBehaviour {
 
     private void Shoot() {
 		if (Input.GetButtonDown("Fire1")) {
-            foreach (Transform gunPoint in gunPoints) {
+			foreach (Transform gunPoint in gunPoints) {
 				GameObject newBullet = Instantiate(bulletPrefab, gunPoint.position, gunPoint.rotation) as GameObject;
 				newBullet.GetComponent<Rigidbody>().AddForce(gunPoint.forward * shootPower);
 				Destroy(newBullet, 5);
 			}
+		}
+		if (Input.GetButtonDown("Fire2")) {
+			GameObject newRocket = Instantiate(rocketPrefab, rocketPoint.position, rocketPoint.rotation) as GameObject;
+			newRocket.GetComponentInChildren<Rigidbody>().velocity = rocketPoint.forward * 4;
+			Destroy(newRocket, 5);
 		}
 	}
 

@@ -11,12 +11,12 @@ public class MaterialBlink : MonoBehaviour
 	[SerializeField]
 	private Material material2;
 
-	private Renderer renderer;
+	private Renderer _renderer;
 	bool isFirstMaterial;
 
 	private float time;
 	private void Awake() {
-		renderer = GetComponent<Renderer>();
+		_renderer = GetComponent<Renderer>();
 		time = 0f;
 		isFirstMaterial = true;
 	}
@@ -24,7 +24,7 @@ public class MaterialBlink : MonoBehaviour
     {
 		time += Time.deltaTime;
 		if (time > 0.25f) {
-			renderer.material = isFirstMaterial ? material2 : material1;
+			_renderer.material = isFirstMaterial ? material2 : material1;
 			isFirstMaterial = !isFirstMaterial;
 			time = 0f;
 		}

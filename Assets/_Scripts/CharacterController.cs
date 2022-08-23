@@ -1,22 +1,17 @@
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Rigidbody))]
 public class CharacterController : MonoBehaviour {
     private Rigidbody _rigidbody;   //кэшированный компонент Rigidbody (чтобы не создавать каждый раз, когда обращаемс€)
 
     [SerializeField]
-    private float movingForce = 20.0f;  //сила дл€ передвижени€
-
-    [SerializeField]
     private float jumpForce = 80f;  //сила прыжка
 
     [SerializeField]
     private float maxSlope = 30f;   //ћаксимальный уклон, по которому может идти персонаж
-
-    [SerializeField]
-    private float damping = 0.3f;
 
 	[SerializeField]
 	private GameObject bulletPrefab;
@@ -58,7 +53,6 @@ public class CharacterController : MonoBehaviour {
 
     //¬ызываетс€ каждый кадр. „астота может мен€тьс€ в зависимости от сложности рендеринга и мощности компьтера.
     void Update() {
-        LookAtTarget(); //ѕоворачиваем персонажа к курсору 
         Shoot();
     }
 
@@ -81,7 +75,7 @@ public class CharacterController : MonoBehaviour {
     void FixedUpdate() {
         if (onGround)   //если стоим на земле
         {
-            ApplyMovingForce(); //прикладываем к персонажу горизонтальную силу, соответствующую ос€м ввода (кнопкам WSAD или стрелкам)
+            Move();
 
             if (Input.GetKeyDown(KeyCode.Space))    //≈сли игрок нажал "пробел"
             {
@@ -107,54 +101,12 @@ public class CharacterController : MonoBehaviour {
         return false;   //ѕодход€ща€ поверхность не найдена, возвращаем значение false.
     }
 
-    // –ассчитываем и прикладываем силу перемещени€ персонажа в зависимости от значений осей инпута
-    private void ApplyMovingForce() {
-        //ѕри рассчете силы по той или иной оси используютс€ локальные оси персонажа. Transform автоматически предоставл€ет вектора, соответствующие его текущей оси Z и оси X (и оси Y тоже):
-        Vector3 xAxisForce = transform.right * Input.GetAxis("Horizontal"); //определ€ем силу по оси ’
-        Vector3 zAxisForce = transform.forward * Input.GetAxis("Vertical"); //определ€ем силу по оси Z
+    private void Move() {
+        
+    }
 
-        Vector3 resultXZForce = xAxisForce + zAxisForce;    //—кладываем вектора
-
-        if (resultXZForce.magnitude > 0) {
-			//≈сли сложить два перпендикул€рных вектора, каждый длиной 1, 
-			//получитс€ вектор длиной примерно 1,41... (квадратный корень из двух).
-			//“о есть персонаж будет быстрее бегать по диагонали, чем строго по одной из осей.
-			//„тобы этого не было, нормализуем результирующий вектор (установим его длину равной 1):
-			resultXZForce.Normalize();
-
-			resultXZForce = resultXZForce * movingForce; //умножаем результирующий вектор на силу движени€ персонажа (задаем скорость)
-
-			_rigidbody.AddForce(resultXZForce); //ѕрикладываем силу к Rigidbody
-		} else {
-			Vector3 dampedVelocity = _rigidbody.velocity * damping;
-			dampedVelocity.y = _rigidbody.velocity.y;
-			_rigidbody.velocity = dampedVelocity;
-		}
-	}
-
-    /*private void LookAtTarget() {
-        RaycastHit hit;
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-		if (Physics.Raycast(ray, out hit))
-        {
-			Debug.DrawLine(transform.position, hit.point);
-			Vector3 position = ray.GetPoint(hit.distance);
-            position.y = transform.position.y;
-			transform.LookAt(position);
-			//transform.LookAt(new Vector3(2.6f,0.3f,2.7f));
-		}
-    }*/
-    private void LookAtTarget() {
-		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-		Plane plane = new Plane(Vector3.up, transform.position);
-        float distance;
-
-		if (plane.Raycast(ray, out distance)) {
-			Vector3 position = ray.GetPoint(distance);
-			transform.LookAt(position);
-		}
+    private void OnDestroy() {
+		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 	}
 
 }

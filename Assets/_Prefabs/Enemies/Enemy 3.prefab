@@ -389,10 +389,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 416003a121965dd4fa4a8d085f7a8c7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 4557352968596781850, guid: 923f03fcd72d71b4a8b6c096e7ef176e, type: 3}
+  bulletPrefab: {fileID: 5691606978834699472, guid: 0ac3889fdb4959a44b765d6651680707, type: 3}
   gunPoint: {fileID: 4557352969239867633}
   shotsPerSecond: 0.5
-  shootPower: 2000
+  shootPower: 300
 --- !u!114 &8433426211399980831
 MonoBehaviour:
   m_ObjectHideFlags: 0

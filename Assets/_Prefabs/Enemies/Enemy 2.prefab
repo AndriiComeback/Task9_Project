@@ -392,7 +392,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 5691606978834699472, guid: 45ff478f21b189d49a73dd617a7d27b5, type: 3}
   gunPoint: {fileID: 4557352969239867633}
   shotsPerSecond: 0.75
-  shootPower: 2000
+  shootPower: 300
 --- !u!114 &8433426211399980831
 MonoBehaviour:
   m_ObjectHideFlags: 0

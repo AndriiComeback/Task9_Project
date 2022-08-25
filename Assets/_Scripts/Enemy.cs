@@ -19,7 +19,12 @@ public class Enemy : MonoBehaviour
         }
 	}
     private void OnDestroy() {
-        scoreLabel = GameObject.FindWithTag("Score Label").GetComponent<ScoreLabel>();
-		scoreLabel.Score += 25;
+        GameObject scoreLabelObject = GameObject.FindWithTag("Score Label");
+        if (scoreLabelObject != null) {
+			scoreLabel = scoreLabelObject.GetComponent<ScoreLabel>();
+            if (scoreLabel != null) {
+                scoreLabel.Score += 25;
+            }
+        }
     }
 }
